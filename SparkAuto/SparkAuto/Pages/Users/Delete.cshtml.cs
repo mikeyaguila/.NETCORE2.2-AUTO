@@ -5,37 +5,36 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SparkAuto.Data;
 using SparkAuto.Model;
 using SparkAuto.Utility;
 
-namespace SparkAuto.Pages.ServiceTypes
+namespace SparkAuto.Pages.Users
 {
     [Authorize(Roles = StaticDetails.AdminEndUser)]
-    public class EditModel : PageModel
+    public class DeleteModel : PageModel
     {
         private readonly ApplicationDbContext _db;
 
-        public EditModel(ApplicationDbContext db)
+        public DeleteModel(ApplicationDbContext db)
         {
             _db = db;
         }
 
         [BindProperty]
-        public ServiceType ServiceType { get; set; }
+        public ApplicationUser ApplicationUser { get; set; }
 
-        public async Task<IActionResult> OnGetAsync(int? id)
+        public async Task<IActionResult> OnGetAsync(string id)
         {
-            if (id == null)
+            if (id.Trim().Length == 0)
             {
                 return NotFound();
             }
 
-            ServiceType = await _db.ServiceType.FirstOrDefaultAsync(m => m.Id == id);
+            ApplicationUser = await _db.ApplicationUser.FirstOrDefaultAsync(m => m.Id == id);
 
-            if (ServiceType == null)
+            if (ApplicationUser == null)
             {
                 return NotFound();
             }
@@ -44,19 +43,12 @@ namespace SparkAuto.Pages.ServiceTypes
 
         public async Task<IActionResult> OnPostAsync()
         {
-            if (!ModelState.IsValid)
-            {
-                return Page();
-            }
+            var userInDb = await _db.Users.SingleOrDefaultAsync(u => u.Id == ApplicationUser.Id);
 
-            var serviceFromDb = await _db.ServiceType.FirstOrDefaultAsync(s => s.Id == ServiceType.Id);
-            serviceFromDb.Name = ServiceType.Name;
-            serviceFromDb.Price = ServiceType.Price;
-
+            _db.Users.Remove(userInDb);
             await _db.SaveChangesAsync();
-            
 
-            return RedirectToPage("./Index");
+            return RedirectToPage("Index");
         }
     }
 }
