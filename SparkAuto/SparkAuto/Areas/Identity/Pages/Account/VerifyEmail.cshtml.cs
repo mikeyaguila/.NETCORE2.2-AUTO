@@ -47,7 +47,7 @@ namespace SparkAuto.Areas.Identity.Pages.Account
                 Email = id,
             };
 
-            var results = await _db.ApplicationUser.FirstOrDefaultAsync(u => u.Email == id);
+            //var results = await _db.ApplicationUser.FirstOrDefaultAsync(u => u.Email == id);
 
             var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
             var callbackUrl = Url.Page(

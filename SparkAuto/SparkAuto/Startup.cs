@@ -45,6 +45,19 @@ namespace SparkAuto
                 .AddDefaultUI(UIFramework.Bootstrap4)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
                 services.AddSingleton<IEmailSender, EmailSender>();
+
+            services.AddAuthentication().AddFacebook(fb =>
+            {
+                fb.AppId = "504185037000975";
+                fb.AppSecret = "622df095cf5bf67ddf899286bd449fda";
+            });
+
+            services.AddAuthentication().AddGoogle(go =>
+            {
+                go.ClientId = "145225922278-2n78qpc0u06b6us94hsg9i2l6los2hml.apps.googleusercontent.com";
+                go.ClientSecret = "ncmu7ElN24arRPzsDX2onQpK";
+            });
+
             services.Configure<EmailOptions>(Configuration);
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
