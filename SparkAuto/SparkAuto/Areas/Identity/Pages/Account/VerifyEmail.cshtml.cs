@@ -47,7 +47,7 @@ namespace SparkAuto.Areas.Identity.Pages.Account
                 Email = id,
             };
 
-            //var results = await _db.ApplicationUser.FirstOrDefaultAsync(u => u.Email == id);
+            var results = await _db.ApplicationUser.FirstOrDefaultAsync(u => u.Email == id);
 
             var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
             var callbackUrl = Url.Page(
@@ -59,7 +59,7 @@ namespace SparkAuto.Areas.Identity.Pages.Account
             await _emailSender.SendEmailAsync(user.Email, "Confirm your email",
                 $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
-            return RedirectToPage();
+            return RedirectToPage("VerifyEmail", new {id = user.Email });
         }
     }
 }

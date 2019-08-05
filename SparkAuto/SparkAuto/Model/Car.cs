@@ -24,7 +24,7 @@ namespace SparkAuto.Model
         public string Style { get; set; }
 
         [Required]
-        public string Year { get; set; }
+        public int Year { get; set; }
 
         [Required]
         public double Miles { get; set; }
@@ -34,6 +34,6 @@ namespace SparkAuto.Model
         public string UserId { get; set; }
 
         [ForeignKey("UserId")]
-
+        public virtual ApplicationUser ApplicationUser { get; set; }
     }
 }

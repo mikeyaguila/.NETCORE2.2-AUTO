@@ -76,10 +76,14 @@
                         @Html.DisplayFor(m => item.Email)
                     </td>
                     <td>
+                        <a asp-page="../Cars/Index" asp-route-userId="@item.Id" style="text-decoration:none">
+                            <img src="~/images/auto-158795_640.png" width="40" />&nbsp; View Cars
+                        </a>
+                    </td>
+                    <td>
                         <a class="btn btn-primary text-white" asp-page="Edit" asp-route-Id="@item.Id"><i class="fas fa-edit"></i></a>
                         <a class="btn btn-danger text-white" asp-page="Delete" asp-route-Id="@item.Id"><i class="fas fa-trash-alt"></i></a>
                     </td>
-                    <td></td>
                 </tr>
                 }
                 <tr>
